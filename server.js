@@ -88,7 +88,7 @@ app.post('/bfhl', (req, res) => {
     }
 });
 
-// Optional: GET endpoint for testing
+//  GET endpoint for testing
 app.get('/bfhl', (req, res) => {
     res.json({ 
         operation_code: 1,
