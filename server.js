@@ -59,3 +59,52 @@ function processData(inputArray) {
         concat_string: concatString
     };
 }
+
+
+
+// POST /bfhl endpoint
+app.post('/bfhl', (req, res) => {
+    try {
+        const { data } = req.body;
+        
+        // Validate input
+        if (!data || !Array.isArray(data)) {
+            return res.status(400).json({
+                is_success: false,
+                message: "Invalid input: 'data' should be an array"
+            });
+        }
+        
+        // Process data and send response
+        const result = processData(data);
+        res.status(200).json(result);
+        
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({
+            is_success: false,
+            message: "Internal server error"
+        });
+    }
+});
+
+// Optional: GET endpoint for testing
+app.get('/bfhl', (req, res) => {
+    res.json({ 
+        operation_code: 1,
+        message: "GET method successful" 
+    });
+});
+
+// Health check endpoint
+app.get('/', (req, res) => {
+    res.json({ 
+        message: "BFHL API is running",
+        endpoints: ["/bfhl"]
+    });
+});
+
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
